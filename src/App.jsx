@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import './App.css'
 
 function App() {
@@ -71,7 +71,7 @@ function App() {
           <button onClick={banItems} value={meal.strIngredient1}>{meal.strIngredient1}</button>
           <br />
           <br />
-          <img className= 'previewImage' src={meal.strMealThumb} />
+          <img className="previewImage" src={meal.strMealThumb} />
         </div>
       )
     }
@@ -83,26 +83,34 @@ function App() {
 
   return (
     <>
-      <button onClick={handleClick}>Discover</button>
-      <br />
-      <br />
-      <Meal />
-      <h2>Banned List</h2>
-      {
-        banned.map((bannedItem) => <button key={bannedItem} value={bannedItem} onClick={unbanItem}>{bannedItem}</button>)
-      }
+      <div id="container">
 
-      <h2>Meal History</h2>
-      {
-        mealHistory.map((seenMeal, index) => 
-          <div key={String(seenMeal.idMeal + "-" + index)}>
-            <p>{seenMeal.strMeal}</p>
-            <p>{seenMeal.strArea}</p>
-            <p>{seenMeal.strCategory}</p>
-            <p>{seenMeal.strIngredient1}</p>
-            <img className= 'historyImage' src={seenMeal.strMealThumb} />
-          </div>)
-      }
+        <div id="history">
+          <h2>Meal History</h2>
+          {
+            mealHistory.map((seenMeal, index) => 
+              <div className="previousMeal" key={String(seenMeal.idMeal + "-" + index)}>
+                <img className= "historyImage" src={seenMeal.strMealThumb} />
+                <p>{seenMeal.strMeal}</p>
+              </div>)
+          }
+        </div>
+
+        <div id="discover">
+          <button onClick={handleClick}>Discover</button>
+          <br />
+          <br />
+          <Meal />
+        </div>
+        
+        <div id="banned">
+          <h2>Banned List</h2>
+          {
+            banned.map((bannedItem) => <button key={bannedItem} value={bannedItem} onClick={unbanItem}>{bannedItem}</button>)
+          }
+        </div>
+
+      </div>
     </>
   )
 }

@@ -5,35 +5,26 @@
   text-align: center;
 }
 
-.previewImage {
-  width: 20em;
-  height: 20em;
-}
-
 .historyImage {
-  width: 5em;
   height: 5em;
+  width: 5em;
+  margin-bottom: -1em;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.previewImage {
+  height: 20em;
+  width: 20em;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+#container {
+  display: flex;
+  align-items: center;
 }
 
-.card {
-  padding: 2em;
+#history, #banned {
+  width: 20vw;
 }
 
-.read-the-docs {
-  color: #888;
+#discover {
+  width: 55vw;
 }
