@@ -5,7 +5,7 @@ import './App.css'
 function App() {
   const URL = 'https://www.themealdb.com/api/json/v1/1/random.php';
 
-  const [meal, setMeal] = useState();
+  const [meal, setMeal] = useState(null);
   const [banned, setBanned] = useState([]);
   const [mealHistory, setMealHistory] = useState([]);
   const MAX_RETRIES = 25;
@@ -54,6 +54,8 @@ function App() {
   const banItems = (e) => {
     if (!banned.includes(e.target.value)) {
       setBanned([...banned, e.target.value]);
+    } else {
+      setBanned([...banned]);
     }
   }
 
@@ -62,13 +64,9 @@ function App() {
       return (
         <div>
           <h3>{meal.strMeal}</h3>
-          <button onClick={banItems} value={meal.strCategory}>{meal.strCategory}</button>
-          <br />
-          <br />
-          <button onClick={banItems} value={meal.strArea}>{meal.strArea}</button>
-          <br />
-          <br />
-          <button onClick={banItems} value={meal.strIngredient1}>{meal.strIngredient1}</button>
+          <button className="propertyButton" onClick={banItems} value={meal.strCategory}>{meal.strCategory}</button>
+          <button className="propertyButton" onClick={banItems} value={meal.strArea}>{meal.strArea}</button>
+          <button className="propertyButton" onClick={banItems} value={meal.strIngredient1}>{meal.strIngredient1}</button>
           <br />
           <br />
           <img className="previewImage" src={meal.strMealThumb} />
@@ -87,9 +85,10 @@ function App() {
 
         <div id="history">
           <h2>Meal History</h2>
+          <h4><i>Which meals have we seen so far?</i></h4>
           {
-            mealHistory.map((seenMeal, index) => 
-              <div className="previousMeal" key={String(seenMeal.idMeal + "-" + index)}>
+            mealHistory.toReversed().map((seenMeal, index) => 
+              <div className="previousMeal" key={index}>
                 <img className= "historyImage" src={seenMeal.strMealThumb} />
                 <p>{seenMeal.strMeal}</p>
               </div>)
@@ -97,16 +96,27 @@ function App() {
         </div>
 
         <div id="discover">
-          <button onClick={handleClick}>Discover</button>
-          <br />
-          <br />
-          <Meal />
+          <div id="discoverContent">
+            <h1>Bon Appetit!</h1>
+            <h3>Embrace the symphony of flavors life offers and select a new meal below!</h3>
+            <button id="discoverButton" onClick={handleClick}>Discover 💫</button>
+            <br />
+            <br />
+            <Meal />
+          </div>
         </div>
         
         <div id="banned">
           <h2>Banned List</h2>
+          <h4><i>Select an attribute in your listing to ban it.</i></h4>
           {
-            banned.map((bannedItem) => <button key={bannedItem} value={bannedItem} onClick={unbanItem}>{bannedItem}</button>)
+            banned.map((bannedItem, index) => 
+              <>
+                <button className='bannedButton' key={index} value={bannedItem} onClick={unbanItem}>{bannedItem}</button>
+                <br /> <br />
+              </>
+            
+            )
           }
         </div>
 
