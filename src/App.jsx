@@ -6,7 +6,7 @@ function App() {
   const URL = 'https://www.themealdb.com/api/json/v1/1/random.php';
 
   const [meal, setMeal] = useState();
-  const [banned, setBanned] = useState(new Set());
+  const [banned, setBanned] = useState([]);
   const [mealHistory, setMealHistory] = useState([]);
   const MAX_RETRIES = 25;
 
@@ -19,10 +19,10 @@ function App() {
   
       while (
         !testMeal ||
-        banned.has(testMeal.strMeal) ||
-        banned.has(testMeal.strCategory) ||
-        banned.has(testMeal.strArea) ||
-        banned.has(testMeal.strIngredient1) ||
+        banned.includes(testMeal.strMeal) ||
+        banned.includes(testMeal.strCategory) ||
+        banned.includes(testMeal.strArea) ||
+        banned.includes(testMeal.strIngredient1) ||
         previousMeal === testMeal
       ) {
         retries++;
@@ -52,7 +52,9 @@ function App() {
   }
 
   const banItems = (e) => {
-    setBanned(new Set([...banned, e.target.value]));
+    if (!banned.includes(e.target.value)) {
+      setBanned([...banned, e.target.value]);
+    }
   }
 
   const Meal = () => {
@@ -75,6 +77,10 @@ function App() {
     }
   }
 
+  const unbanItem = (e) => {
+    setBanned(banned.filter(item => item !== e.target.value));
+  }
+
   return (
     <>
       <button onClick={handleClick}>Discover</button>
@@ -83,7 +89,7 @@ function App() {
       <Meal />
       <h2>Banned List</h2>
       {
-        [...banned].map((bannedItem) => <p key={bannedItem}>{bannedItem}</p>)
+        banned.map((bannedItem) => <button key={bannedItem} value={bannedItem} onClick={unbanItem}>{bannedItem}</button>)
       }
 
       <h2>Meal History</h2>
